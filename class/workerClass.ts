@@ -9,10 +9,12 @@ import { environmnet } from "../environment/environment";
 
 // Interface
 import { WorkerModelInterface } from "../interfaces/worker";
+import { Historial } from "./../interfaces/historial";
 
 // Modelos
 import workerModel from "../models/workerModel";
 import pedidoModel from "../models/pedidoModel";
+import historialModel from "../models/historialModel";
 
 // Funciones
 import { evaluaRole } from "../functions/nivelWorker";
@@ -1042,8 +1044,14 @@ export class WorkkerClass {
           });
         }
 
-        const filterPedidos = pedidosDB.map((pedidoFilter: any) => {
-          return pedidoFilter.asignado_a.nombre;
+        const mapPedidos = pedidosDB.map((pedidoMap: any) => {
+          if (pedidoMap.asignado_a.nombre) {
+            return pedidoMap.asignado_a.nombre;
+          }
+        });
+
+        const filterPedidos = mapPedidos.filter((pedidoFilter: any) => {
+          return pedidoFilter !== undefined;
         });
         // console.log("===================================================");
 
@@ -1057,6 +1065,126 @@ export class WorkkerClass {
           distribucion: counts,
         });
       });
+  }
+
+  historialDB(req: any, resp: Response): void {
+    const idUsuario = req.body.idUsuario;
+
+    historialModel.findOne(
+      { idUsuario },
+      (err: any, historialDB: Historial) => {
+        if (err) {
+          return resp.json({
+            ok: false,
+            mensaje: "Error interno",
+            err,
+          });
+        }
+
+        if (!historialDB) {
+          this.crearHistorialBusqueda(req, resp);
+        } else {
+          this.actualizarHistorial(req, resp);
+        }
+      }
+    );
+  }
+
+  crearHistorialBusqueda(req: any, resp: Response): void {
+    const idUsuario = req.body.idUsuario; // tipo o null
+    const bandeja = req.body.bandeja; // tipo o null
+    const sucursal = req.body.sucursal; // id o null
+    const usuario = req.body.usuario; // id o null
+
+    const crarHistorial = new historialModel({
+      idUsuario,
+      bandeja,
+      sucursal,
+      usuario,
+    });
+
+    crarHistorial.save((err: CallbackError, historialDB: Historial) => {
+      if (err) {
+        return resp.json({
+          ok: false,
+          err,
+          mensaje: "No se creó el historial",
+        });
+      } else {
+        return resp.json({
+          ok: true,
+          mensaje: "Historial creado",
+          historialDB,
+        });
+      }
+    });
+  }
+
+  actualizarHistorial(req: any, resp: Response): void {
+    const idUsuario = new mongoose.Types.ObjectId(req.body.idUsuario); //
+    const bandeja = req.body.bandeja; // tipo o null
+    let sucursal = req.body.sucursal; // id o null
+    let usuario = req.body.usuario; // id o null
+
+    historialModel.findOneAndUpdate(
+      {
+        idUsuario: idUsuario,
+      },
+      { bandeja: bandeja, sucursal: sucursal, usuario: usuario },
+      { new: true },
+      (err: any, historialDB: any) => {
+        if (err) {
+          return resp.json({
+            ok: false,
+            mensaje: "Error al actualizar historial",
+            err,
+          });
+        }
+
+        if (!historialDB) {
+          return resp.json({
+            ok: true,
+            mensaje: "No se encontró historial",
+          });
+        }
+
+        return resp.json({
+          ok: true,
+          mensaje: "historial encontrado",
+          historialDB,
+        });
+      }
+    );
+  }
+
+  obtenerHistorial(req: any, resp: Response): void {
+    // const idUsuario = new mongoose.Types.ObjectId(req.body.idUsuario);
+    const idUsuario = req.get("idUsuario");
+
+    console.log(idUsuario);
+
+    historialModel.findOne({ idUsuario }, (err: any, historialDB: any) => {
+      if (err) {
+        return resp.json({
+          ok: false,
+          mensaje: "Error al actualizar historial",
+          err,
+        });
+      }
+
+      if (!historialDB) {
+        return resp.json({
+          ok: true,
+          mensaje: "No se encontró historial",
+        });
+      }
+
+      return resp.json({
+        ok: true,
+        mensaje: "historial encontrado",
+        historialDB,
+      });
+    });
   }
 }
 
