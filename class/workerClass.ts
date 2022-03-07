@@ -1043,9 +1043,11 @@ export class WorkkerClass {
             mensaje: "Error Interno",
           });
         }
-
         const mapPedidos = pedidosDB.map((pedidoMap: any) => {
-          if (pedidoMap.asignado_a.nombre) {
+          if (
+            pedidoMap.asignado_a !== null &&
+            pedidoMap.asignado_a !== undefined
+          ) {
             return pedidoMap.asignado_a.nombre;
           }
         });
@@ -1053,6 +1055,8 @@ export class WorkkerClass {
         const filterPedidos = mapPedidos.filter((pedidoFilter: any) => {
           return pedidoFilter !== undefined;
         });
+
+        // console.log(filterPedidos);
         // console.log("===================================================");
 
         const counts: any = {};
@@ -1064,6 +1068,28 @@ export class WorkkerClass {
           ok: true,
           distribucion: counts,
         });
+
+        // return;
+        // const mapPedidos = pedidosDB.map((pedidoMap: any) => {
+        //   if (pedidoMap.asignado_a.nombre) {
+        //     return pedidoMap.asignado_a.nombre;
+        //   }
+        // });
+
+        // const filterPedidos = mapPedidos.filter((pedidoFilter: any) => {
+        //   return pedidoFilter !== undefined;
+        // });
+        // // console.log("===================================================");
+
+        // const counts: any = {};
+        // filterPedidos.forEach((x: any) => {
+        //   counts[x] = (counts[x] || 0) + 1;
+        // });
+
+        // return resp.json({
+        //   ok: true,
+        //   distribucion: counts,
+        // });
       });
   }
 
