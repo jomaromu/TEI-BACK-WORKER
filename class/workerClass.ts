@@ -1161,7 +1161,7 @@ export class WorkkerClass {
     // const idUsuario = new mongoose.Types.ObjectId(req.body.idUsuario);
     const idUsuario = req.get("idUsuario");
 
-    console.log(idUsuario);
+    // console.log(idUsuario);
 
     historialModel.findOne({ idUsuario }, (err: any, historialDB: any) => {
       if (err) {
