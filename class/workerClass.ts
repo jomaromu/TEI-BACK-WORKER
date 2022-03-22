@@ -817,7 +817,7 @@ export class WorkkerClass {
               this.token = jwt.sign(
                 { usuario: usuarioFechaDB },
                 environmnet.SEED,
-                { expiresIn: 3600 }
+                { expiresIn: 43200 }
               ); // Token válido por una hora 3600
 
               return resp.json({
@@ -899,7 +899,7 @@ export class WorkkerClass {
         // Crear token
         usuarioDB.password = ":)";
         this.token = jwt.sign({ usuario: usuarioDB }, environmnet.SEED, {
-          expiresIn: 86400,
+          expiresIn: 43200,
         }); // Token válido por un dia
 
         return resp.json({
