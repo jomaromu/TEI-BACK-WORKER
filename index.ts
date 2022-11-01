@@ -22,16 +22,18 @@ server.app.use(cors({ origin: true, credentials: true }));
 
 require("./models/sucursalModel");
 require("./models/roleWorkerModel");
+require("./models/coloresModel");
+require("./models/etapasModel");  
 
 // conexion local
 mongoose.connect(
-  "mongodb://127.0.0.1:27017/todoImpresiones",
+  "mongodb://127.0.0.1:27017/angie", 
   { autoIndex: false },
   (err: any) => {
     if (err) throw err;
-    console.log("Base de datos Online");
+    console.log("Base de datos Online");  
   }
-);
+); 
 
 // usar las rutas
 server.app.use("/worker", workerRouter);
@@ -39,4 +41,4 @@ server.app.use("/worker", workerRouter);
 // correr servidor
 server.start(() => {
   console.log(`Servidor corriendo en el puerto: ${server.port}`);
-}); 
+});

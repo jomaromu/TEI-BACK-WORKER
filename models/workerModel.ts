@@ -8,7 +8,6 @@ import { WorkerModelInterface } from "../interfaces/worker";
 const Schema = mongoose.Schema;
 
 const WorkerUserSchema = new Schema({
-  // idCreador: { type: mongoose.Types.ObjectId, ref: "userWorker" },
   nombre: { type: String, default: "Colaborador" },
   apellido: { type: String },
   identificacion: { type: String },
@@ -26,9 +25,15 @@ const WorkerUserSchema = new Schema({
   cantVisitas: { type: Number, default: 0 },
   estado: { type: Boolean, default: true },
   sucursal: { type: mongoose.Types.ObjectId, ref: "sucursales" },
+  foranea: { type: mongoose.Types.ObjectId, ref: "userWorker" },
+  avatar: { type: String },
+  empresa: { type: Boolean, default: false },
 });
 
 // validacion para único elemento
-WorkerUserSchema.plugin(uniqueValidator, { message: "{PATH}, ya existe!!" });
+WorkerUserSchema.plugin(uniqueValidator, {
+  message:
+    "{PATH}, Este correo ya existe dentro del ecosistema de la plataforma. Elimine dicho correo o registre con uno diferente",
+});
 
 export = mongoose.model<WorkerModelInterface>("userWorker", WorkerUserSchema);

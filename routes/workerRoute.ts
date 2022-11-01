@@ -16,6 +16,14 @@ workerRouter.post("/nuevoUsuario", (req: Request, resp: Response) => {
 });
 
 // ==================================================================== //
+// Crear una empresa
+// ==================================================================== //
+workerRouter.post("/nuevaEmpresa", (req: Request, resp: Response) => {
+  const nuevaEmpresa = new WorkkerClass();
+  nuevaEmpresa.nuevaEmpresa(req, resp);
+});
+
+// ==================================================================== //
 // Editar un usuario
 // ==================================================================== //
 workerRouter.put(
@@ -26,6 +34,26 @@ workerRouter.put(
     editarUsuario.editarUsuario(req, resp);
   }
 );
+
+// ==================================================================== //
+// Editar password
+// ==================================================================== //
+workerRouter.put(
+  "/editarPassword",
+  [verificaToken],
+  (req: Request, resp: Response) => {
+    const editarPassword = new WorkkerClass();
+    editarPassword.editarPassword(req, resp);
+  }
+);
+
+// ==================================================================== //
+// Editar password
+// ==================================================================== //
+workerRouter.put("/recuperarPassword", (req: Request, resp: Response) => {
+  const recuperarPassword = new WorkkerClass();
+  recuperarPassword.recuperarPassword(req, resp);
+});
 
 // ==================================================================== //
 // Eliminar un usuario
@@ -73,6 +101,14 @@ workerRouter.get("/decodificarToken", (req: Request, resp: Response) => {
 workerRouter.post("/refrescarToken", (req: Request, resp: Response) => {
   const refrescarToken = new WorkkerClass();
   refrescarToken.refrescarToken(req, resp);
+});
+
+// ==================================================================== //
+// Distribucion
+// ==================================================================== //
+workerRouter.get("/obtenerDistribucion", (req: Request, resp: Response) => {
+  const obtenerDistribucion = new WorkkerClass();
+  obtenerDistribucion.obtenerDistribucion(req, resp);
 });
 
 export default workerRouter;

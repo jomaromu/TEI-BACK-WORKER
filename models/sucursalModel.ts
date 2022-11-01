@@ -15,12 +15,13 @@ const Provincia = new Schema({
 
 const sucursalSchema = new Schema({
   idCreador: { type: Schema.Types.ObjectId, ref: "userWorker" },
-  nombre: { type: String },
+  nombre: { type: String, unique: true },
   direccion: { type: String },
   telefono: { type: String },
   provincia: { type: Provincia },
   fecha_creacion: { type: String },
-  estado: { type: Boolean, default: true },
+  estado: { type: Boolean, default: true }, 
+  foranea: { type: mongoose.Types.ObjectId, ref: "userWorker" },
 });
 
 // validacion para único elemento

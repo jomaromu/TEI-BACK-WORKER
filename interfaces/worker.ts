@@ -13,4 +13,7 @@ export interface WorkerModelInterface {
   estado: boolean;
   sucursal: any;
   identificacion: string;
+  foranea: any;
+  avatar: string;
+  empresa: boolean;
 }

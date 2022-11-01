@@ -7,6 +7,7 @@ export interface SucursalModel {
   direccion: string;
   estado: boolean;
   fecha_creacion: string;
+  foranea: string;
 }
 
 interface Provincia {
