@@ -278,7 +278,7 @@ export class WorkkerClass {
           }); // Token válido por una hora 3600
 
           const data = {
-            pathRecuperarPass: `http://190.218.167.88/#/recuperar-password?token=${token}`,
+            pathRecuperarPass: `https://angie-platform.com/#/recuperar-password?token=${token}`,
             correoUsuario: usuarioDB.correo,
           };
 

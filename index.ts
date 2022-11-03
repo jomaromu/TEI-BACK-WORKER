@@ -29,7 +29,7 @@ require("./models/etapasModel");
 mongoose.connect(
   "mongodb://127.0.0.1:27017/angie", 
   { autoIndex: false },
-  (err: any) => {
+  (err: any) => { 
     if (err) throw err;
     console.log("Base de datos Online");  
   }
